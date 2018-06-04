@@ -38,5 +38,11 @@ def status():
     return 'OK'
 
 
+@app.route('/version')
+def version():
+    with open('VERSION.txt') as f:
+        return f.read()
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ['PORT']))
