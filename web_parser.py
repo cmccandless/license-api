@@ -34,7 +34,15 @@ def get_licenses():
         {
             k: v
             for k, v in get_license(href_parts[2]).items()
-            if k in {'id', 'source', 'permissions', 'conditions', 'limitations'}
+            if k in {
+                'id',
+                'source',
+                'permissions',
+                'conditions',
+                'limitations',
+                'nickname',
+                'description',
+            }
         }
         for href_parts in (
             href.split('/')
