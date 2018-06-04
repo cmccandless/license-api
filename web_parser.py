@@ -28,7 +28,8 @@ def get_rules():
 
 
 def get_licenses():
-    page = requests.get(LICENSE_TABLE_URL)
+    with requests_cache.disabled():
+        page = requests.get(LICENSE_TABLE_URL)
     tree = html.fromstring(page.content)
     return [
         {
