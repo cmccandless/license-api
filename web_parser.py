@@ -42,6 +42,7 @@ def get_licenses():
                 'conditions',
                 'limitations',
                 'nickname',
+                'title',
                 'description',
             }
         }
