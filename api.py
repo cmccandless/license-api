@@ -2,6 +2,7 @@
 from flask import Flask
 from flask_restful import Resource, Api, abort
 import web_parser
+import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -28,4 +29,4 @@ api.add_resource(Rules, '/rules')
 
 
 if __name__ == '__main__':
-    app.run(port=8080)
+    app.run(port=int(os.environ['PORT']))
