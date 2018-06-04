@@ -4,6 +4,9 @@ from flask_restful import Resource, Api, abort
 import web_parser
 import os
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 app = Flask(__name__)
 api = Api(app)
 
