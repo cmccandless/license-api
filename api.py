@@ -10,6 +10,8 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 api = Api(app)
 
+app.url_map.strict_slashes = False
+
 
 class License(Resource):
     def get(self, license_id=None):
@@ -27,8 +29,13 @@ class Rules(Resource):
         return dict(rules=rules)
 
 
-api.add_resource(License, '/', '/licenses', '/licenses/', '/licenses/<string:license_id>')
+api.add_resource(License, '/', '/licenses', '/licenses/<string:license_id>')
 api.add_resource(Rules, '/rules')
+
+
+@app.route('/status')
+def status():
+    return 'OK'
 
 
 if __name__ == '__main__':
