@@ -1,7 +1,7 @@
 # license-api
 Unofficial REST API for choosealicense.com
 
-## Examples:
+## API
 
 ### Get All Licenses
 
@@ -16,3 +16,26 @@ curl -f https://licenseapi.herokuapp.com/licenses
 ```Bash
 curl -f https://licenseapi.herokuapp.com/licenses/gpl-3.0
 ```
+
+### Get Rules
+
+```Bash
+curl -f https://licenseapi.herokuapp.com/rules
+```
+
+### Get API version
+
+```Bash
+curl -f https://licenseapi.herokuapp.com/version
+```
+
+
+### Get API Status
+
+```Bash
+curl -f https://licenseapi.herokuapp.com/status
+```
+
+## CLI
+
+https://github.com/cmccandless/license-cli
