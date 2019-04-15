@@ -6,7 +6,7 @@ Flask==1.0.2
 Flask-RESTful==0.3.6
 idna==2.6
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2>=2.10.1
 lxml==4.2.1
 MarkupSafe==1.0
 pytz==2018.4
