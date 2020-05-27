@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from flask import Flask
 from flask_restful import Resource, Api, abort
-from flask_limiter import import Limiter
+from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import web_parser
 import os
