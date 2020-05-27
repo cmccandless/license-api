@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from flask import Flask
 from flask_restful import Resource, Api, abort
+from flask_limiter import import Limiter
+from flask_limiter.util import get_remote_address
 import web_parser
 import os
 
@@ -8,6 +10,11 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+)
 api = Api(app)
 
 app.url_map.strict_slashes = False
@@ -34,6 +41,7 @@ api.add_resource(Rules, '/rules')
 
 
 @app.route('/status')
+@limiter.exempt
 def status():
     return 'OK'
 
