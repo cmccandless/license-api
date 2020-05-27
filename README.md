@@ -39,3 +39,7 @@ curl -f https://licenseapi.herokuapp.com/status
 ## CLI
 
 https://github.com/cmccandless/license-cli
+
+## Rate Limiting
+
+Requests from a single host are limited to 200/day, 50/hour
