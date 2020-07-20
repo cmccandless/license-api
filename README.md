@@ -1,5 +1,5 @@
 # license-api
-Unofficial REST API for choosealicense.com
+Unofficial REST API for https://choosealicense.com/
 
 ## API
 
