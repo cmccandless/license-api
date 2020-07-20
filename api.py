@@ -19,21 +19,28 @@ api = Api(app)
 
 app.url_map.strict_slashes = False
 
+disabled = (
+    "License API disabled due to excessive requests. "
+    "If you see this message, please comment on the issue at "
+    "https://github.com/cmccandless/license-api/issues/2"
+)
 
 class License(Resource):
     def get(self, license_id=None):
-        if license_id is None:
-            licenses = web_parser.get_licenses()
-            return dict(licenses=licenses)
-        try:
-            return web_parser.get_license(license_id, False)
-        except ValueError:
-            abort(404, message="License {} doesn't exist".format(license_id))
+        # if license_id is None:
+        #     licenses = web_parser.get_licenses()
+        #     return dict(licenses=licenses)
+        # try:
+        #     return web_parser.get_license(license_id, False)
+        # except ValueError:
+        #     abort(404, message="License {} doesn't exist".format(license_id))
+        return abort(503, message=disabled)
 
 class Rules(Resource):
     def get(self):
-        rules = web_parser.get_rules()
-        return dict(rules=rules)
+        # rules = web_parser.get_rules()
+        # return dict(rules=rules)
+        return abort(503, message=disabled)
 
 
 api.add_resource(License, '/', '/licenses', '/licenses/<string:license_id>')
@@ -43,7 +50,8 @@ api.add_resource(Rules, '/rules')
 @app.route('/status')
 @limiter.exempt
 def status():
-    return 'OK'
+    # return 'OK'
+    abort(503, message=disabled)
 
 
 @app.route('/version')
