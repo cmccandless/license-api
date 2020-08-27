@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import werkzeug.exceptions
 import web_parser
 import os
+import json
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -37,6 +38,7 @@ app.register_error_handler(ServiceDisabled, handle_service_unavailable)
 
 class License(Resource):
     def get(self, license_id=None):
+        logging.info(json.dumps({**request.headers}, indent=2))
         raise ServiceDisabled()
         if license_id is None:
             licenses = web_parser.get_licenses()
@@ -48,6 +50,7 @@ class License(Resource):
 
 class Rules(Resource):
     def get(self):
+        logging.info(json.dumps({**request.headers}, indent=2))
         raise ServiceDisabled()
         rules = web_parser.get_rules()
         return dict(rules=rules)
