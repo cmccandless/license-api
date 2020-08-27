@@ -28,9 +28,11 @@ class ServiceDisabled(werkzeug.exceptions.HTTPException):
         "https://github.com/cmccandless/license-api/issues/2"
     )
 
-@app.register_error_handler(werkzeug.exceptions.ServiceUnavailable)
 def handle_service_unavailable(e):
     return e.description, 503
+
+
+app.register_error_handler(ServiceDisabled, handle_service_unavailable)
 
 
 class License(Resource):
