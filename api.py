@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 from flask import Flask
-from flask_restful import Resource, Api, abort
+from flask_restful import Resource, Api
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+import werkzeug.exceptions
 import web_parser
 import os
 
@@ -19,28 +20,35 @@ api = Api(app)
 
 app.url_map.strict_slashes = False
 
-disabled = (
-    "License API disabled due to excessive requests. "
-    "If you see this message, please comment on the issue at "
-    "https://github.com/cmccandless/license-api/issues/2"
-)
+class ServiceDisabled(werkzeug.exceptions.HTTPException):
+    code = 507
+    description = (
+        "License API disabled due to excessive requests. "
+        "If you see this message, please comment on the issue at "
+        "https://github.com/cmccandless/license-api/issues/2"
+    )
+
+@app.register_error_handler(werkzeug.exceptions.ServiceUnavailable)
+def handle_service_unavailable(e):
+    return e.description, 503
+
 
 class License(Resource):
     def get(self, license_id=None):
-        # if license_id is None:
-        #     licenses = web_parser.get_licenses()
-        #     return dict(licenses=licenses)
-        # try:
-        #     return web_parser.get_license(license_id, False)
-        # except ValueError:
-        #     abort(404, message="License {} doesn't exist".format(license_id))
-        return abort(503, message=disabled)
+        raise ServiceDisabled()
+        if license_id is None:
+            licenses = web_parser.get_licenses()
+            return dict(licenses=licenses)
+        try:
+            return web_parser.get_license(license_id, False)
+        except ValueError:
+            return "License {} doesn't exist".format(license_id), 404
 
 class Rules(Resource):
     def get(self):
-        # rules = web_parser.get_rules()
-        # return dict(rules=rules)
-        return abort(503, message=disabled)
+        raise ServiceDisabled()
+        rules = web_parser.get_rules()
+        return dict(rules=rules)
 
 
 api.add_resource(License, '/', '/licenses', '/licenses/<string:license_id>')
@@ -50,8 +58,8 @@ api.add_resource(Rules, '/rules')
 @app.route('/status')
 @limiter.exempt
 def status():
-    # return 'OK'
-    abort(503, message=disabled)
+    raise ServiceDisabled()
+    return 'OK'
 
 
 @app.route('/version')
